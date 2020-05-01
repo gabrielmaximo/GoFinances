@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 interface ContainerProps {
   size?: 'small' | 'large';
+  path?: 'dashboard' | 'import';
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -17,19 +18,41 @@ export const Container = styled.div<ContainerProps>`
     justify-content: space-between;
 
     nav {
+      display: flex;
+
       a {
-        color: #fff;
-        text-decoration: none;
         font-size: 16px;
-        transition: opacity 0.2s;
+        transition: opacity transform 0.2s;
+        transition: transform 0.2s;
+        text-decoration: none;
 
         & + a {
           margin-left: 32px;
         }
 
         &:hover {
-          opacity: 0.6;
+          color: #fff;
+          transform: translate(4px, -4px);
+          opacity: 1;
         }
+
+        hr {
+          margin-top: 10px;
+          background-color: #ff872c;
+          padding: 0.5px;
+        }
+      }
+
+      .list {
+        color: ${({ path }) => (path === 'import' ? '#FFF ' : '#FF872C')};
+        font-weight: ${({ path }) => (path === 'import' ? 'normal' : 'bold')};
+        opacity: ${({ path }) => (path === 'import' ? '0.8' : '1')};
+      }
+
+      .import {
+        color: ${({ path }) => (path !== 'import' ? '#FFF ' : '#FF872C')};
+        font-weight: ${({ path }) => (path !== 'import' ? 'normal' : 'bold')};
+        opacity: ${({ path }) => (path !== 'import' ? '0.8' : '1')};
       }
     }
   }
