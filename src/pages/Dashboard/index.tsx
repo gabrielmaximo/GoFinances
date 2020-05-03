@@ -147,7 +147,9 @@ const Dashboard: React.FC = () => {
                   <tr>
                     <td className="title">{title}</td>
                     <td className={type}>
-                      {formatValue(type === 'outcome' ? -value : value)}
+                      {type === 'outcome'
+                        ? `- ${formatValue(value)}`
+                        : formatValue(value)}
                     </td>
                     <td>{category.title}</td>
                     <td>{formatDate(createdAt)}</td>
