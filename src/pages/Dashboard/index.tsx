@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FiChevronUp, FiChevronDown } from 'react-icons/fi';
 
 import income from '../../assets/income.svg';
 import outcome from '../../assets/outcome.svg';
@@ -28,6 +29,7 @@ interface Balance {
 }
 
 const Dashboard: React.FC = () => {
+  const [orderBy, setOrder] = useState('');
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [balance, setBalance] = useState<Balance>({} as Balance);
 
@@ -42,9 +44,35 @@ const Dashboard: React.FC = () => {
     loadTransactions();
   }, []);
 
+  function handleOrderSubmit(
+    param: 'title' | 'value' | 'category' | 'created_at',
+  ): void {
+    if (param === orderBy) {
+      const order = transactions.reverse();
+      setOrder('');
+      setTransactions(order);
+      return;
+    }
+
+    const order = transactions.sort((x, y) => {
+      let sort = 0;
+      if (param === 'value') sort = x.value - y.value;
+      if (param === 'category')
+        sort = x.category.title < y.category.title ? -1 : 1;
+      if (x[param].toString().toLowerCase() < y[param].toString().toLowerCase())
+        sort = -1;
+      if (x[param].toString().toLowerCase() > y[param].toString().toLowerCase())
+        sort = 1;
+      return sort;
+    });
+
+    setOrder(param);
+    setTransactions([...order]);
+  }
+
   return (
     <>
-      <Header path="dashboard" />
+      <Header path="list" />
 
       <Container>
         <CardContainer>
@@ -77,10 +105,38 @@ const Dashboard: React.FC = () => {
           <table>
             <thead>
               <tr>
-                <th>Título</th>
-                <th>Preço</th>
-                <th>Categoria</th>
-                <th>Data</th>
+                <th onClick={() => handleOrderSubmit('title')}>
+                  Título
+                  {orderBy === 'title' ? (
+                    <FiChevronUp color="#FF872C" size={20} />
+                  ) : (
+                    <FiChevronDown size={20} />
+                  )}
+                </th>
+                <th onClick={() => handleOrderSubmit('value')}>
+                  Preço
+                  {orderBy === 'value' ? (
+                    <FiChevronUp color="#FF872C" size={20} />
+                  ) : (
+                    <FiChevronDown size={20} />
+                  )}
+                </th>
+                <th onClick={() => handleOrderSubmit('category')}>
+                  Categoria
+                  {orderBy === 'category' ? (
+                    <FiChevronUp color="#FF872C" size={20} />
+                  ) : (
+                    <FiChevronDown size={20} />
+                  )}
+                </th>
+                <th onClick={() => handleOrderSubmit('created_at')}>
+                  Data
+                  {orderBy === 'created_at' ? (
+                    <FiChevronUp color="#FF872C" size={20} />
+                  ) : (
+                    <FiChevronDown size={20} />
+                  )}
+                </th>
               </tr>
             </thead>
 
@@ -89,7 +145,9 @@ const Dashboard: React.FC = () => {
                 <tbody key={id}>
                   <tr>
                     <td className="title">{title}</td>
-                    <td className={type}>{formatValue(value)}</td>
+                    <td className={type}>
+                      {formatValue(type === 'outcome' ? -value : value)}
+                    </td>
                     <td>{category.title}</td>
                     <td>{formatDate(createdAt)}</td>
                   </tr>

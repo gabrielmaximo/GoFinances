@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 interface ContainerProps {
   size?: 'small' | 'large';
-  path?: 'dashboard' | 'import';
+  path?: 'list' | 'import';
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -22,7 +22,7 @@ export const Container = styled.div<ContainerProps>`
 
       a {
         font-size: 16px;
-        transition: opacity transform 0.2s;
+        transition: opacity 0.2s;
         transition: transform 0.2s;
         text-decoration: none;
 
@@ -31,28 +31,27 @@ export const Container = styled.div<ContainerProps>`
         }
 
         &:hover {
-          color: #fff;
+          font-weight: bold;
           transform: translate(4px, -4px);
           opacity: 1;
         }
 
         hr {
           margin-top: 10px;
-          background-color: #ff872c;
           padding: 0.5px;
         }
       }
 
-      .list {
-        color: ${({ path }) => (path === 'import' ? '#FFF ' : '#FF872C')};
-        font-weight: ${({ path }) => (path === 'import' ? 'normal' : 'bold')};
-        opacity: ${({ path }) => (path === 'import' ? '0.8' : '1')};
+      .import {
+        color: ${({ path }) => (path === 'import' ? '#FF872C' : '#FFF ')};
+        font-weight: ${({ path }) => (path === 'import' ? 'bold' : 'normal')};
+        opacity: ${({ path }) => (path === 'import' ? '1' : '0.8')};
       }
 
-      .import {
-        color: ${({ path }) => (path !== 'import' ? '#FFF ' : '#FF872C')};
-        font-weight: ${({ path }) => (path !== 'import' ? 'normal' : 'bold')};
-        opacity: ${({ path }) => (path !== 'import' ? '0.8' : '1')};
+      .list {
+        color: ${({ path }) => (path === 'list' ? '#FF872C' : '#FFF')};
+        font-weight: ${({ path }) => (path === 'list' ? 'bold' : 'normal')};
+        opacity: ${({ path }) => (path === 'list' ? '1' : '0.8')};
       }
     }
   }

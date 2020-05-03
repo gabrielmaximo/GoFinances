@@ -8,7 +8,7 @@ import Logo from '../../assets/logo.svg';
 
 interface HeaderProps {
   size?: 'small' | 'large';
-  path?: 'dashboard' | 'import';
+  path?: 'list' | 'import';
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -23,11 +23,11 @@ const Header: React.FC<HeaderProps> = ({
       <nav>
         <Link className="list" to="/">
           Listagem
-          {path === 'dashboard' && <hr />}
+          {path === 'list' && <hr color="#FF872C" />}
         </Link>
         <Link className="import" to="/import">
-          Import
-          {path === 'import' && <hr />}
+          Importar
+          {path === 'import' && <hr color="#FF872C" />}
         </Link>
       </nav>
     </header>
